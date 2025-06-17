@@ -80,7 +80,7 @@
 - name: debian | Restarting OVS Bridges
   shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
   become: true
-  with_items: '{{ ovs_bridges }}'
+  with_items: '{{ ovs_bridges_list }}'
   when: >
     config_ovs_bridges and
     (enable_configured_interfaces_after_defining or item['enable']) and
@@ -90,7 +90,7 @@
 - name: debian | Restarting OVS Bonds
   shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
   become: true
-  with_items: '{{ ovs_bonds }}'
+  with_items: '{{ ovs_bonds_list }}'
   when: >
     config_ovs_bonds and
     (enable_configured_interfaces_after_defining or item['enable']) and
@@ -100,7 +100,7 @@
 - name: debian | Restarting OVS Interfaces
   shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
   become: true
-  with_items: '{{ ovs_interfaces }}'
+  with_items: '{{ ovs_interfaces_list }}'
   when: >
     config_ovs_interfaces and
     (enable_configured_interfaces_after_defining or item['enable']) and
