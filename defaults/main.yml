@@ -39,7 +39,7 @@ enable_configured_interfaces_after_defining: false
 
 # Defines non Open vSwitch network bonds
 network_bonds:
-  []
+  {}
   # - name: bond0
   #   address: 192.168.1.10
   #   netmask: 255.255.255.0
@@ -64,7 +64,7 @@ network_bonds:
 
 # Defines non Open vSwitch network bridges
 network_bridges:
-  []
+  {}
   # - name: br0
   #   configure: true
   #   enable: false
@@ -86,7 +86,7 @@ network_bridges:
 
 # Defines non Open vSwitch network interfaces
 network_interfaces:
-  []
+  {}
   # - name: enp0s3
   #   configure: true
   #   enable: false
@@ -120,7 +120,7 @@ network_interfaces:
 
 # Defines non Open vSwitch network vlans
 network_vlans:
-  []
+  {}
   # - name: enp0s8.100
   #   configure: true
   #   enable: false
@@ -134,7 +134,7 @@ network_vlans:
 
 # Defines Open vSwitch bonds
 ovs_bonds:
-  []
+  {}
   # - name: bond0
   #   # address:
   #   bridge: vmbr0
@@ -159,7 +159,7 @@ ovs_bonds:
 
 # Defines Open vSwitch bridges
 ovs_bridges:
-  []
+  {}
   # - name: vmbr0
   #   # address:
   #   comment: OVS Bridge
@@ -183,7 +183,7 @@ ovs_bridges:
 
 # Defines Open vSwitch interfaces
 ovs_interfaces:
-  []
+  {}
   # - name: vlan1
   #   address:
   #   bridge: vmbr0
