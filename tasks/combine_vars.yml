@@ -1,0 +1,27 @@
+---
+- name: Combine vars for Ansible Networking Interfaces
+  set_fact:
+    network_interfaces: '{{ lookup("community.general.merge_variables", "^network_interfaces_.+$", initial_value=network_interfaces) }}'
+    network_bridges: '{{ lookup("community.general.merge_variables", "^network_bridges_.+$", initial_value=network_bridges) }}'
+    network_bonds: '{{ lookup("community.general.merge_variables", "^network_bonds_.+$", initial_value=network_bonds) }}'
+    network_vlans: '{{ lookup("community.general.merge_variables", "^network_vlans_.+$", initial_value=network_vlans) }}'
+
+- name: Create Interfaces list from interfaces dict.
+  set_fact:
+    network_interfaces_list: '{{ network_interfaces_list + [item.value | combine({"name": item.key})] }}'
+  loop: '{{ network_interfaces | dict2items }}'
+
+- name: Create Bridges list from bridge dict.
+  set_fact:
+    network_bridges_list: '{{ network_bridges_list + [item.value | combine({"name": item.key})] }}'
+  loop: '{{ network_bridges | dict2items }}'
+
+- name: Create Bonds list from bonds dict.
+  set_fact:
+    network_bonds_list: '{{ network_bonds_list + [item.value | combine({"name": item.key})] }}'
+  loop: '{{ network_bonds | dict2items }}'
+
+- name: Create Vlans list from vlans dict.
+  set_fact:
+    network_vlans_list: '{{ network_vlans_list + [item.value | combine({"name": item.key})] }}'
+  loop: '{{ network_vlans | dict2items }}'

@@ -1,4 +1,10 @@
 ---
+- ansible.builtin.include_tasks:
+    file: combine_vars.yml
+    apply:
+      tags: always
+  tags: always
+
 # tasks file for ansible-config-interfaces
 - ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
