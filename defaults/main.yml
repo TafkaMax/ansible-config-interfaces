@@ -203,3 +203,9 @@ pri_domain_name: example.org
 
 # Install or not lldp
 config_install_lldp: true
+
+#NB! DO NOT MODIFY THESE VARIABLES.
+network_interfaces_list: []
+network_bonds_list: []
+network_bridges_list: []
+network_vlans_list: []
