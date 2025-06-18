@@ -48,6 +48,7 @@
   when: >
     (config_network_interfaces is defined and
     config_network_interfaces)
+  notify: enable networking
 
 - name: debian | Restart networking.service
   service:
