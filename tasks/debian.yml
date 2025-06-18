@@ -49,61 +49,10 @@
     (config_network_interfaces is defined and
     config_network_interfaces)
 
-- name: debian | Restarting Network Interfaces
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ network_interfaces_list|default([]) }}'
+- name: debian | Restart networking.service
+  service:
+    name: networking
+    state: restarted
   when: >
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
-    config_interface['changed']
-
-- name: debian | Restarting Network VLANs
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ network_vlans_list|default([]) }}'
-  when: >
-    config_network_vlans and
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
-    config_interface['changed']
-
-- name: debian | Restarting Network Bridges
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ network_bridges_list|default([]) }}'
-  when: >
-    config_network_bridges and
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
-    config_interface['changed']
-
-- name: debian | Restarting OVS Bridges
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ ovs_bridges_list|default([]) }}'
-  when: >
-    config_ovs_bridges and
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
-    config_interface['changed']
-
-- name: debian | Restarting OVS Bonds
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ ovs_bonds_list|default([]) }}'
-  when: >
-    config_ovs_bonds and
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
-    config_interface['changed']
-
-- name: debian | Restarting OVS Interfaces
-  shell: bash -c "ifdown {{ item.name }} --force && ifup {{ item.name }} --force"
-  become: true
-  with_items: '{{ ovs_interfaces_list|default([]) }}'
-  when: >
-    config_ovs_interfaces and
-    (enable_configured_interfaces_after_defining or item['enable']) and
-    item['configure'] and
+    enable_configured_interfaces_after_defining and
     config_interface['changed']
