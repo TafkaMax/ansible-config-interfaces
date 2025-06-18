@@ -156,7 +156,7 @@ iface {{ item['name'] }} inet {{ item['method']|lower }}
 {%       if item['comment'] is defined %}
 # {{ item['comment'] }}
 {%       endif %}
-allow-{{ item['bridge'] }} {{ item['name'] }}
+auto {{ item['name'] }}
 iface {{ item['name'] }} inet {{ item['method']|lower }}
 {%       if item['method']|lower == "static" or item['method']|lower == "manual" %}
 {%         if item['address'] is defined and item['address'] != None %}
@@ -195,7 +195,6 @@ iface {{ item['name'] }} inet {{ item['method']|lower }}
 # {{ item['comment'] }}
 {%       endif %}
 auto {{ item['name'] }}
-allow-ovs {{ item['name'] }}
 iface {{ item['name'] }} inet {{ item['method']|lower }}
 {%       if item['method']|lower == "static" or item['method']|lower == "manual" %}
 {%         if item['address'] is defined and item['address'] != None %}
@@ -233,7 +232,6 @@ iface {{ item['name'] }} inet {{ item['method']|lower }}
 # {{ item['comment'] }}
 {%       endif %}
 auto {{ item['name'] }}
-allow-{{ item['bridge'] }} {{ item['name'] }}
 iface {{ item['name'] }} inet {{ item['method']|lower }}
 {%       if item['method']|lower == "static" or item['method']|lower == "manual" %}
 {%         if item['address'] is defined and item['address'] != None %}
