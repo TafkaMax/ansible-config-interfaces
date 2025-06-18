@@ -1,5 +1,5 @@
 ---
-- name: Combine vars for Ansible Networking Interfaces
+- name: Combine vars for Ansible Config Interfaces
   set_fact:
     network_interfaces: '{{ lookup("community.general.merge_variables", "^network_interfaces_.+$", initial_value=network_interfaces) }}'
     network_bridges: '{{ lookup("community.general.merge_variables", "^network_bridges_.+$", initial_value=network_bridges) }}'
@@ -9,37 +9,37 @@
     ovs_bridges: '{{ lookup("community.general.merge_variables", "^ovs_bridges_.+$", initial_value=ovs_bridges) }}'
     ovs_bonds: '{{ lookup("community.general.merge_variables", "^ovs_bonds_.+$", initial_value=ovs_bonds) }}'
 
-- name: Create Interfaces list from interfaces dict.
+- name: Create network_interfaces_list from network_interfaces dict.
   set_fact:
     network_interfaces_list: '{{ network_interfaces_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ network_interfaces | dict2items }}'
 
-- name: Create Bridges list from bridge dict.
+- name: Create network_bridges_list list from network_bridges dict.
   set_fact:
     network_bridges_list: '{{ network_bridges_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ network_bridges | dict2items }}'
 
-- name: Create Bonds list from bonds dict.
+- name: Create network_bonds_list from network_bonds dict.
   set_fact:
     network_bonds_list: '{{ network_bonds_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ network_bonds | dict2items }}'
 
-- name: Create Vlans list from vlans dict.
+- name: Create network_vlans_list from network_vlans dict.
   set_fact:
     network_vlans_list: '{{ network_vlans_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ network_vlans | dict2items }}'
 
-- name: Create OVS list from ovs_interfaces dict.
+- name: Create ovs_interfaces_list from ovs_interfaces dict.
   set_fact:
     ovs_interfaces_list: '{{ ovs_interfaces_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ ovs_interfaces | dict2items }}'
 
-- name: Create OVS bridges list from ovs_bridges dict.
+- name: Create ovs_bridges_list from ovs_bridges dict.
   set_fact:
     ovs_bridges_list: '{{ ovs_bridges_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ ovs_bridges | dict2items }}'
 
-- name: Create OVS bonds list from ovs_bonds dict.
+- name: Create ovs_bonds_list from ovs_bonds dict.
   set_fact:
     ovs_bonds_list: '{{ ovs_bonds_list|default([]) + [item.value | combine({"name": item.key})] }}'
   loop: '{{ ovs_bonds | dict2items }}'
