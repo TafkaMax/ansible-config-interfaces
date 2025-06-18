@@ -1,4 +1,9 @@
 ---
+# fetch package data
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
 # combine variables
 - ansible.builtin.include_tasks:
     file: combine_vars.yml

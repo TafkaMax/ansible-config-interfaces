@@ -26,6 +26,7 @@
   until: result is successful
   when: config_network_bonds
 
+# Don't install vlan package for proxmox-ve
 - name: debian | Installing VLAN Packages
   apt:
     name: ['vlan']
@@ -33,7 +34,7 @@
   become: true
   register: result
   until: result is successful
-  when: config_network_vlans
+  when: 'config_network_vlans and "proxmox-ve" not in ansible_facts.packages'
 
 - name: debian | Configuring Defined Interfaces
   template:
