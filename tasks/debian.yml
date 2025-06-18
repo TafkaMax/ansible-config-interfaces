@@ -42,6 +42,7 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
+    backup: true
   register: config_interface
   become: true
   when: >
