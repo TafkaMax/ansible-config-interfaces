@@ -196,3 +196,6 @@ pri_domain_name: example.org
 
 # Install or not lldp
 config_install_lldp: true
+
+# Install ifupdown2 or not
+config_install_ifupdown2: true

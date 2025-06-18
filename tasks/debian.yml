@@ -8,6 +8,15 @@
   until: result is successful
   when: config_install_lldp | bool
 
+- name: debian | Installing ifupdown2
+  apt:
+    name: ['ifupdown2']
+    state: present
+  become: true
+  register: result
+  until: result is successful
+  when: config_install_ifupdown2 | bool
+
 - name: debian | Installing bridge-utils
   apt:
     name: ['bridge-utils']
