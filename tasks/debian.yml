@@ -1,6 +1,6 @@
 ---
 - name: debian | Installing Pre-Req Packages
-  apt:
+  ansible.builtin.apt:
     name: ['lldpd']
     state: present
   become: true
@@ -9,7 +9,7 @@
   when: config_install_lldp | bool
 
 - name: debian | Installing ifupdown2
-  apt:
+  ansible.builtin.apt:
     name: ['ifupdown2']
     state: present
   become: true
@@ -18,7 +18,7 @@
   when: config_install_ifupdown2 | bool
 
 - name: debian | Installing bridge-utils
-  apt:
+  ansible.builtin.apt:
     name: ['bridge-utils']
     state: present
   become: true
@@ -27,7 +27,7 @@
   when: config_network_bridges
 
 - name: debian | Installing Bonding Packages
-  apt:
+  ansible.builtin.apt:
     name: ['ifenslave']
     state: present
   become: true
@@ -37,7 +37,7 @@
 
 # Don't install vlan package for proxmox-ve
 - name: debian | Installing VLAN Packages
-  apt:
+  ansible.builtin.apt:
     name: ['vlan']
     state: present
   become: true
@@ -46,7 +46,7 @@
   when: 'config_network_vlans and "proxmox-ve" not in ansible_facts.packages'
 
 - name: debian | Configuring Defined Interfaces
-  template:
+  ansible.builtin.template:
     src: '{{ config_interface_template }}'
     dest: /etc/network/interfaces
     owner: root
@@ -61,7 +61,7 @@
   notify: enable networking
 
 - name: debian | Restart networking.service
-  service:
+  ansible.builtin.service:
     name: networking
     state: restarted
   when: >
