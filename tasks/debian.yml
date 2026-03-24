@@ -1,7 +1,7 @@
 ---
 - name: debian | Installing Pre-Req Packages
   ansible.builtin.apt:
-    name: ['lldpd']
+    name: ["lldpd"]
     state: present
   become: true
   register: result
@@ -10,7 +10,7 @@
 
 - name: debian | Installing ifupdown2
   ansible.builtin.apt:
-    name: ['ifupdown2']
+    name: ["ifupdown2"]
     state: present
   become: true
   register: result
@@ -19,7 +19,7 @@
 
 - name: debian | Installing bridge-utils
   ansible.builtin.apt:
-    name: ['bridge-utils']
+    name: ["bridge-utils"]
     state: present
   become: true
   register: result
@@ -28,7 +28,7 @@
 
 - name: debian | Installing Bonding Packages
   ansible.builtin.apt:
-    name: ['ifenslave']
+    name: ["ifenslave"]
     state: present
   become: true
   register: result
@@ -38,16 +38,18 @@
 # Don't install vlan package for proxmox-ve
 - name: debian | Installing VLAN Packages
   ansible.builtin.apt:
-    name: ['vlan']
+    name: ["vlan"]
     state: present
   become: true
   register: result
   until: result is successful
-  when: 'config_network_vlans and "proxmox-ve" not in ansible_facts.packages'
+  when:
+    - config_network_vlans
+    - "'proxmox-ve' not in ansible_facts.packages"
 
 - name: debian | Configuring Defined Interfaces
   ansible.builtin.template:
-    src: '{{ config_interface_template }}'
+    src: "{{ config_interface_template }}"
     dest: /etc/network/interfaces
     owner: root
     group: root
@@ -55,15 +57,15 @@
     backup: true
   register: config_interface
   become: true
-  when: >
-    (config_network_interfaces is defined and
-    config_network_interfaces)
+  when:
+    - config_network_interfaces is defined
+    - config_network_interfaces
   notify: enable networking
 
 - name: debian | Restart networking.service
   ansible.builtin.service:
     name: networking
     state: restarted
-  when: >
-    enable_configured_interfaces_after_defining and
-    config_interface['changed']
+  when:
+    - enable_configured_interfaces_after_defining
+    - config_interface["changed"]
