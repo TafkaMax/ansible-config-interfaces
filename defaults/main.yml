@@ -199,3 +199,7 @@ config_install_lldp: true
 
 # Whether to install ifupdown2 utility or not
 config_install_ifupdown2: false
+
+# Whether to use per interface ifupdown or restart the whole networking.service
+# Historical default is to restart interfaces 1-by-1 so that remains the default.
+enable_networking_service: false

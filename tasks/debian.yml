@@ -60,12 +60,78 @@
   when:
     - config_network_interfaces is defined
     - config_network_interfaces
-  notify: enable networking
+  notify: enable networking service
+
+- name: debian | Restarting Network Interfaces
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ network_interfaces | dict2items }}"
+  when:
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
+
+- name: debian | Restarting Network VLANs
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ network_vlans | dict2items }}"
+  when:
+    - config_network_vlans
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
+
+- name: debian | Restarting Network Bridges
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ network_bridges | dict2items }}"
+  when:
+    - config_network_bridges
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
+
+- name: debian | Restarting OVS Bridges
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ ovs_bridges | dict2items }}"
+  when:
+    - config_ovs_bridges
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
+
+- name: debian | Restarting OVS Bonds
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ ovs_bonds | dict2items }}"
+  when:
+    - config_ovs_bonds
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
+
+- name: debian | Restarting OVS Interfaces
+  ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
+  become: true
+  loop: "{{ ovs_interfaces | dict2items }}"
+  when:
+    - config_ovs_interfaces
+    - (enable_configured_interfaces_after_defining or item.value["enable"])
+    - item.value["configure"]
+    - config_interface["changed"]
+    - not enable_networking_service
 
 - name: debian | Restart networking.service
   ansible.builtin.service:
     name: networking
     state: restarted
   when:
+    - enable_networking_service
     - enable_configured_interfaces_after_defining
     - config_interface["changed"]
