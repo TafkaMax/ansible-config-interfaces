@@ -14,6 +14,17 @@ iface lo inet loopback
 {%       if item['method']|lower == "static" or item['method']|lower == "manual" %}
 auto {{ item['name'] }}
 iface {{ item['name'] }} inet {{ item['method']|lower }}
+{%       if item['ovs_type'] is defined and item['ovs_type'] == 'OVSPort' %}
+  ovs_type OVSPort
+  ovs_bridge {{ item['bridge'] }}
+{%       if item['ovs_mtu'] is defined %}
+  ovs_mtu {{ item['ovs_mtu'] }}
+{%       endif %}
+{%       if item['options'] is defined %}
+  ovs_options {% for item2 in item['options'] %}{{ item2['opt'] }}={{ item2['val'] }}{% if not loop.last %} {% endif %}{% endfor %}
+
+{%       endif %}
+{%       endif %}
 {%         if item['address'] is defined and item['address'] != None %}
   address {{ item['address'] }}
 {%         endif %}
@@ -214,6 +225,9 @@ iface {{ item['name'] }} inet {{ item['method']|lower }}
 {%       endif %}
   ovs_type OVSBridge
   ovs_ports {{ item['ports']|join(' ') }}
+{%       if item['ovs_mtu'] is defined %}
+  ovs_mtu {{ item['ovs_mtu'] }}
+{%       endif %}
 {%       if item['options'] is defined %}
   ovs_options {% for item2 in item['options'] %}{{ item2['opt'] }}={{ item2['val'] }}{% if not loop.last %} {% endif %}{% endfor %}
 

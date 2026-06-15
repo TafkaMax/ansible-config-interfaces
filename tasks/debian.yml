@@ -71,6 +71,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restarting Network VLANs
   ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
@@ -82,6 +83,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restarting Network Bridges
   ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
@@ -93,6 +95,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restarting OVS Bridges
   ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
@@ -104,6 +107,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restarting OVS Bonds
   ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
@@ -115,6 +119,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restarting OVS Interfaces
   ansible.builtin.shell: bash -c "ifdown {{ item.key }} --force && ifup {{ item.key }} --force"
@@ -126,6 +131,7 @@
     - item.value["configure"]
     - config_interface["changed"]
     - not enable_networking_service
+    - not ansible_check_mode
 
 - name: debian | Restart networking.service
   ansible.builtin.service:
