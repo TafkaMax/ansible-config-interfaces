@@ -4,4 +4,4 @@
   ansible.builtin.service:
     name: networking
     enabled: true
-  when: enable_networking_service 
+  when: enable_networking_service

@@ -18,8 +18,8 @@ NETMASK={{ item.value.netmask }}
 {% endif %}
 {% if config_network_bonds %}
 {%   if network_bonds is defined %}
-{%     for bond_name, nb in network_bonds.values() %}
-{%       for slave in nb.value.slaves %}
+{%     for bond_name, nb in network_bonds.items() %}
+{%       for slave in nb.slaves %}
 {%         if slave == item.key %}
 MASTER={{ bond_name }}
 SLAVE=yes
@@ -37,7 +37,7 @@ TYPE=Bond
 {% endif %}
 {% if config_network_bridges %}
 {%   if network_bridges is defined %}
-{%     for bridge_name, nbr in network_bridges.values() %}
+{%     for bridge_name, nbr in network_bridges.items() %}
 {%       for port in nbr['ports'] %}
 {%         if port == item.key %}
 BRIDGE={{ bridge_name }}
